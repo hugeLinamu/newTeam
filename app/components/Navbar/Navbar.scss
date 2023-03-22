@@ -1,0 +1,31 @@
+.items {
+  padding: 12px 16px;
+  width: auto;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    background: #62c3a5;
+    transition: width 0.3s;
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    opacity: 0;
+  }
+
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &.active {
+    color: #62c3a5;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+}

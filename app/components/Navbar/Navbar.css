@@ -1,0 +1,27 @@
+.items {
+  padding: 12px 16px;
+  width: auto;
+  position: relative;
+}
+.items::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  background: #62c3a5;
+  transition: width 0.3s;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  opacity: 0;
+}
+.items:hover::after {
+  opacity: 1;
+}
+.items.active {
+  color: #62c3a5;
+}
+.items.active::after {
+  opacity: 1;
+}
+
+/*# sourceMappingURL=Navbar.css.map */

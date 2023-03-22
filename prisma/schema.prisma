@@ -1,0 +1,283 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       String @id @default(cuid())
+  account  String @unique
+  nickname String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  password Password?
+
+  name    String?
+  phone   String?
+  email   String?
+  address String?
+
+  money Int @default(0)
+
+  notes           Note[]
+  role            Role              @default(USER)
+  noteComment     NoteComment[]
+  town            Town[]
+  noteLike        NoteLike[]
+  noteCommentLike NoteCommentLike[]
+  banner          Banner[]
+  notice          Notice[]
+  Order           Order[]
+}
+
+model Password {
+  hash String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+}
+
+model Note {
+  id    String @id @default(cuid())
+  title String
+  body  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  isRecommend Boolean @default(false)
+  summary     String?
+
+  noteComments NoteComment[]
+  noteLike     NoteLike[]
+
+  town   Town?   @relation(fields: [townId], references: [id])
+  townId String?
+
+  status noteStatus @default(PUBLIC)
+}
+
+model NoteLike {
+  id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  note   Note   @relation(fields: [noteId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  noteId String
+}
+
+model NoteComment {
+  id   String @id @default(cuid())
+  body String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  note   Note   @relation(fields: [noteId], references: [id])
+  noteId String
+
+  NoteCommentLike NoteCommentLike[]
+}
+
+model NoteCommentLike {
+  id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  noteComment   NoteComment @relation(fields: [noteCommentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  noteCommentId String
+}
+
+model Town {
+  id         String   @id @default(cuid())
+  name       String
+  // 摘要
+  summary    String?
+  // 产业
+  industry   String?
+  // 投资规模
+  investment String?
+  // 入驻企业
+  company    String?
+  // 规划面积 
+  area       String?
+  // 小镇位置
+  location   String?
+  // 小镇详情
+  detail     Json?
+  // 顺序
+  order      Int?
+  // 图片
+  image      String?
+  // 照片集
+  pictures   String[]
+
+  // 全景
+  panoramaURL String?
+
+  // 是否推荐
+  isRecommend Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId   String
+  Note     Note[]
+  Activity Activity[]
+  MSTC     MSTC[]
+}
+
+// banner
+model Banner {
+  id     Int     @id @default(autoincrement())
+  name   String
+  // 图片
+  url    String
+  // 跳转链接
+  link   String
+  // 顺序
+  order  Int
+  // 是否显示
+  isShow Boolean @default(true)
+
+  type MediaType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+}
+
+// 活动 
+model Activity {
+  id      Int     @id @default(autoincrement())
+  name    String
+  content String
+  // 简介
+  jj      String?
+  // 服务
+  fw      String?
+  // 设施
+  ss      String?
+  img     String?
+
+  type activityType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  town     Town?   @relation(fields: [townId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  townId   String?
+  location String?
+
+  ticket Ticket[]
+}
+
+model Ticket {
+  id       String  @id @default(cuid())
+  //名字
+  tN       String
+  //是否出售了
+  isHandle Boolean @default(false)
+  //价格
+  tP       Int
+
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  activityId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order Order?
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ticketId String @unique
+}
+
+model Notice {
+  id      Int     @id @default(autoincrement())
+  title   String
+  // 内容
+  content String
+  // 顺序
+  order   Int?
+  // 是否显示
+  isShow  Boolean @default(true)
+  // 是否置顶
+  isTop   Boolean @default(false)
+  // 摘要
+  summary String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+}
+
+model MSTC {
+  id      Int     @id @default(autoincrement())
+  name    String
+  content String
+  img     String?
+  summary String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  town   Town   @relation(fields: [townId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  townId String
+}
+
+enum Role {
+  ADMIN
+  USER
+  BUSINESS
+}
+
+enum MediaType {
+  VIDEO
+  PHOTO
+}
+
+enum noteStatus {
+  PUBLIC
+  PRIVATE
+}
+
+enum activityType {
+  JD
+  HD
+  KJJD
+  XJJD
+  MSKZ
+}

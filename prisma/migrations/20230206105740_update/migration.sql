@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Notice" ALTER COLUMN "image" DROP NOT NULL,
+ALTER COLUMN "order" DROP NOT NULL;
