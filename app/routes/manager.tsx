@@ -18,10 +18,11 @@ export default function ManagerIndex() {
       link: "towns",
       roles: ["ADMIN", "BUSINESS"],
     },
-    // {
-    //   title: "公告管理",
-    //   link: "notices",
-    // },
+    {
+      title: "活动管理",
+      link: "mcpnymd",
+      roles: ["ADMIN", "BUSINESS"],
+    },
     // {
     //   title: "笔记管理",
     //   link: "notes",

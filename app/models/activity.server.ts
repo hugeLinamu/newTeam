@@ -70,3 +70,19 @@ export function getAllCJNDM(type?: any) {
     },
   });
 }
+
+export function getAllCHNDMList(type?: any) {
+  return prisma.activity.findMany({
+    where: {
+      type: "HD",
+    },
+  });
+}
+
+export function getCHNDMDetail(id: any, type?: any) {
+  return prisma.activity.findUnique({
+    where: {
+      id: +id,
+    },
+  });
+}
