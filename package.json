@@ -31,11 +31,14 @@
     "/public/build"
   ],
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
+    "@amap/amap-jsapi-types": "^0.0.13",
     "@prisma/client": "^4.9.0",
     "@remix-run/node": "^1.12.0",
     "@remix-run/react": "^1.12.0",
     "@remix-run/serve": "^1.12.0",
     "@remix-run/server-runtime": "^1.12.0",
+    "antd": "^5.3.3",
     "bcryptjs": "^2.4.3",
     "isbot": "^3.6.5",
     "lipsum-zh": "^1.0.2",

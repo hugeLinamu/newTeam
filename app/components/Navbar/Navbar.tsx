@@ -30,7 +30,11 @@ export default function Navbar() {
     {
       name: "用户笔记",
       path: "/notes",
-    },
+    }, 
+    {
+      name:'智慧交通',
+      path:'/traffic'
+    }
   ];
 
   return (
@@ -158,10 +162,9 @@ export default function Navbar() {
                 to={item.path}
                 key={index}
                 className={({ isActive }) =>
-                  `relative w-auto py-3 px-4 ${
-                    isActive
-                      ? "text-[#62c3a5] after:opacity-100"
-                      : "after:opacity-0"
+                  `relative w-auto py-3 px-4 ${isActive
+                    ? "text-[#62c3a5] after:opacity-100"
+                    : "after:opacity-0"
                   }  after:absolute after:right-0 after:left-0 after:-bottom-2 after:h-0.5 after:bg-[#62c3a5]  after:transition-all after:content-['_'] hover:after:opacity-100 `
                 }
               >
